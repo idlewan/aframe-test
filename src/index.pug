@@ -1,0 +1,69 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Aframe tryout
+
+    link(rel="stylesheet" href="style.css")
+    script(src="aframe-v0.7.1.min.js")
+    script(src="index.min.js")
+
+  body
+    .ui
+      .active-cube Active cube: 
+        span#active-cube-id None
+
+      .cubes Cubes:
+        span#cubes-nb 0
+
+      .scale-cubes Scale cubes: 
+        div
+          button#scale-cube-less -
+          button#scale-cube-more +
+          button#scale-cube-reset reset
+
+      button#add-cube Add cube
+
+      label.cube-color Active cube color: 
+        input#cube-color(type="color" value="#0F2D5E")
+
+      button#reset-camera Reset camera
+
+      #delete.hidden
+        button#delete-active-cube Delete active cube
+        #delete-active-cube-confirmation.hidden
+          button.cancel Cancel
+          button.yes Yes
+
+
+    a-scene(fog="color: #bc483e; near: 0; far: 65;"
+            cursor="rayOrigin: mouse" vr-mode-ui="enabled: false")
+      a-assets
+        a-mixin#cube(
+          material="color: #EF2D5E"
+          geometry="primitive: box; height: 0.30; width: 0.30; depth: 0.30"
+          selectable change-color-on-hover)
+
+      a-entity(position="0 0 -0.5")
+        //a-box.cube(mixin="cube" position="0.30 1.65 -1" data-oid=0)
+        //a-box.cube(mixin="cube" position="-0.30 1.65 -8" data-oid=1)
+
+        // Environment
+        a-entity#sky(
+          geometry="primitive: sphere; radius: 65;"
+          material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back;")
+        a-entity(ground)
+        a-entity(
+          light="type: point; color: #f4f4f4; intensity: 0.2;distance: 0"
+          position="8 10 18")
+        a-entity(
+          light="type: point; color: #f4f4f4; intensity: 0.6; distance: 0"
+          position="-8 10 -18")
+        a-entity(
+          light="type: ambient; color: #f4f4f4; intensity: 0.4;"
+          position="-8 10 -18")
+
+      a-camera(camera-controls)
+
+    script.
+      init()
